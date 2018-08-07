@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="utf-8" http-equiv="encoding">
+	<title>task 1</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!--   	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+  	<script src="js/bootstrap.min.js"></script>
+  	<script src="jquery.js"></script> -->
+
+
+  	<style type="text/css">
+	  	body{
+	  		background-image: url("images/Background-For-Powerpoint-13.jpg");
+	  		background-repeat: no-repeat;
+	  	}
+  		.div-input{
+  			padding-top: 10px;
+  			height: 120px;
+  			border-radius: 2px;
+  			background-color:white;
+  			/*border: 2px solid grey;	*/
+  			  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  		}
+
+  		.div-response{
+  			height: 450px;
+  			
+  		} 		
+
+  		.table{
+  			font-size: 18px;
+  			text-align: center;
+			background-color:white;
+  		}
+
+  		th{
+  			padding-top: 12px;
+		    padding-bottom: 12px;
+		    text-align: left;
+		    background-color: #4CAF50;
+		    color: white;
+
+  		}
+  		td,th{
+  			  border: 1px solid #ddd;
+    		padding: 8px;
+  		}
+  		tr:nth-child(even){background-color: #f2f2f2;}
+  		tr:hover {background-color: #ddd;}
+  		
+  		.btn{
+  			font-size: 18px;
+  			width: 15%;
+  		}
+				
+  	</style>
+  	<script type="text/javascript">
+	 
+  		$(document).ready(function(){
+
+		$(".showdata").hide();
+
+		$("#movie-button").click(function(){
+			var code,msg,cnt,list,list,city;
+			var value = $("#input").val();
+
+			url="https://api.openweathermap.org/data/2.5/forecast?q="+value+"&appid=0b97f2b248b5c13fe8a63aab3259aa34";
+			
+			$.get(url,function(data,status){
+				
+				console.log("sending response");
+				console.log("data: " + data + "stauts: "+ status);
+				
+				if(status == "success"){
+
+				$(".showdata").show();
+				
+				$.each(data,function(index,element){
+				
+
+					if(index == "cod"){
+						code=element;
+						console.log(code);
+						
+					}else if(index == "message"){
+						msg=element;
+						console.log(msg);
+					}else if(index == "cnt"){
+						cnt=element;
+						console.log(cnt);
+					}else if(index == "list"){
+						list=element;
+						console.log(list);
+					}else if(index == "city"){
+						city=element;
+						console.log(city);
+					}else{
+						alert("Invalid data");
+					}
+					
+					
+				});
+				display(code,msg,cnt,list,city);
+				// console.log(code);
+			  }
+				
+			   });	
+			
+		});
+//********************		
+		function display(code,msg,cnt,list,city){
+			console.log(code);
+		
+			if(code == 200){
+			
+				var t_data;
+				$.each(list,function(index,element){
+					var date =new Date(element["dt"]);
+					var d =date.getDate() + "/"+ date.getMonth() +"/"+ date.getFullYear() + " ,"+ date.getHours() +":" +date.getMinutes() +":"+date.getSeconds();
+;
+
+					 t_data += "<tr><td>" + d + "</td><td>" +element["main"]["temp"] + "</td><td>" + element["main"]["humidity"] + '</td><td><img src="' + element["weather"][0]["icon"]+ ' "></td><td>' + 
+					 element["clouds"]["all"] + "</td><td>" +element["wind"]["speed"] + "</td><td>"+ city["name"]  + "</td></tr>" ;
+
+				
+				});
+
+				$("#data").after(t_data);
+			}
+			else{
+				alert("Result not found");
+			}			
+
+		}	
+
+//********************
+		$("#input").click(function(){
+			$("#input").val("");
+		})
+
+	});
+
+
+ </script>
+
+</head>
+
+<body>
+<div class="container"><br><br><br>
+	<div class="row">
+		<div class="col-sm-2"></div>
+		<div class="col-sm-8 div-input">
+			<input type="text" name="name" class="form-control" id="input"><br>
+			<button type="submit" id="movie-button" class="btn btn-md btn-info">Submit</button>
+		</div>
+	</div><br>
+	<div class="showdata">
+	<div class="row div-response">
+		<div class="col-sm-12" id="div-data">
+			
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Day</th>						
+						<th>Temperature</th>
+						<th>Humidity</th>
+						<th>icon</th>
+						<th>Clouds</th>
+						<th>Wind</th>
+						<th>Location</th>
+					</tr>
+				</thead>
+				<tbody id="data">
+					
+				</tbody>
+			</table>
+		</div>
+	</div>
+	
+
+</div>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>parse json</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+</head>
+<body>
+<h1>Welcome to json</h1>
+<p id="demo"></p>
+<p id="demo1">Name : <span id ="1"></span> <br> Age: <span id="2"></span> <br> City: <span id="3"></span></p>
+Enter your name:
+<input type="text" name="name" id ="input">
+<button id="btn">click</button>
+<br>
+<button id="btn2">send</button>
+
+	<script type="text/javascript">
+		
+		var myjson = '{"name1":"John", "age":31, "city":"New York"}';
+		var obj=JSON.parse(myjson);
+		var data = obj.name + ":"+ obj.age;
+		
+		document.getElementById("demo").innerHTML = data;
+
+		$(document).ready(function(){
+			$("#btn").click(function(){
+				var json =jQuery.parseJSON(myjson);
+				alert(json);
+				$("#1").text(json.name1);
+				$("#2").text(json.age);
+				$("#3").text(json.city);
+
+			});
+
+			$("#btn2").click(function(){
+				var url="https://vishakha.os3.co.in/smart_dustbean/insert.php?did=bin_218&fill=20";
+			
+				$.get(url,function(data,status){
+					// alert("Data: "+ data +"Status : "+ status );
+					console.log(data);
+				});
+			});
+		});
+
+
+
+
+	</script>
+
+</body>
+</html>

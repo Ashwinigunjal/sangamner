@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Sangamnercity</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+	<meta name="description" content="Sangamner is a city and a municipal council located in the Ahmednagar District of Maharashtra state in India. Situated on the Pravara River, it got its name because it is on the site of the sangam (confluence) of three rivers in the area: Pravara, Mhalungi, and Mahanuti. Industries include a cloth market, educational facilities, a sugar factory, agriculture, and tobacco products. ">
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+	<style type="text/css">
+		
+		.nav-top{
+			height: 400px;
+			background-color: pink;
+
+		}
+	.navbar-brand:hover{
+			background-color: white;
+			margin-left: 50px;
+			
+		}
+	.navbar-header{
+		font-size: 20px;
+	}
+
+	.sticky{
+	  position: fixed;
+	  width: 100%;
+	  top:0;
+	  right:0;
+	}
+
+
+
+	</style>
+
+	
+</head>
+<body>
+
+<div class="nav-top">
+	<br>
+	
+		<nav class="navbar">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="#" style="margin-left: 50px;">SangamnerCity</a>
+				</div>
+				<ul class="nav navbar-nav" style="float:right;">
+					<li><a href="#">Home</a></li>
+					<li><a href="#">Education</a></li>
+					<li><a href="#">Tourist</a></li>
+					<li><a href="#">Contact</a></li>
+				</ul>
+			</div>
+		</nav>
+
+		
+
+
+
+
+	
+</div>
+
+
+<script type="text/javascript">
+	
+	$(document).ready(function(){
+		var stickyNavTop = $('.nav').offset().top;
+		console.log(stickyNavTop);
+
+		var stickyNav = function(){
+			    var scrollTop = $(window).scrollTop(); // our current vertical position from the top
+			    console.log(scrollTop);
+			    if (scrollTop > stickyNavTop) { 
+			    	
+			        $('.navbar').addClass('sticky');
+			        $('.navbar').css("background-color", "black");
+			       
+			      
+			      
+
+			        console.log("inside if");
+			    } else {
+			        $('.navbar').removeClass('sticky'); 
+			        $('.navbar').css("background-color", "pink");
+			         console.log("outside if");
+			    }
+			};
+
+			stickyNav();
+			// and run it again every time you scroll
+			$(window).scroll(function() {
+				stickyNav();
+			});
+
+	});
+</script>
+</body>
+</html>

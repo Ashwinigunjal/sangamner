@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="utf-8" http-equiv="encoding">
+	<title>task 1</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!--   	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+  	<script src="js/bootstrap.min.js"></script>
+  	<script src="jquery.js"></script> -->
+
+
+  	<style type="text/css">
+	  
+  		.div-input{
+  			padding-top: 10px;
+  			height: 120px;
+  			border-radius: 2px;
+  			background-color:white;
+  			/*border: 2px solid grey;	*/
+  			  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  		}
+
+  		.div-response{
+  			height: 450px;
+  			
+  		} 		
+
+  		.table{
+  			font-size: 18px;
+  			text-align: center;
+			background-color:white;
+  		}
+
+  		th{
+  			padding-top: 12px;
+		    padding-bottom: 12px;
+		    text-align: left;
+		    background-color: #4CAF50;
+		    color: white;
+
+  		}
+  		td,th{
+  			  border: 1px solid #ddd;
+    		padding: 8px;
+  		}
+  		tr:nth-child(even){background-color: #f2f2f2;}
+  		tr:hover {background-color: #ddd;}
+  		
+  		.btn{
+  			font-size: 18px;
+  			width: 15%;
+  		}
+				
+  	</style>
+  	<script type="text/javascript">
+	 	
+  		
+  		$(document).ready(function(){
+  			
+  			$(".showdata").hide();
+
+		$("#movie-button").click(function(){
+			var value = $("#input").val();
+			console.log(value);
+			var url_data="https://api.openweathermap.org/data/2.5/forecast?q="+value+"&appid=0b97f2b248b5c13fe8a63aab3259aa34";
+				console.log(value + " : "+ url_data);
+				$.ajax({
+
+  				type:"GET",
+  				// url:'https://api.openweathermap.org/data/2.5/forecast?q=london&appid=0b97f2b248b5c13fe8a63aab3259aa34',
+  				url: url_data,
+  				async:true,
+  				dataType:'jsonp',
+  				contentType: 'application/json',
+  				success:function(data,status,xhr){
+  					// console.log(data);
+  					console.log(status);
+  					if(status == "success"){
+  						set_display_data(data);
+
+  					}
+  					else{
+  						alert("Fail to retrive data");
+  					}  					
+  					
+  				}
+
+  			});
+
+		});
+
+		function set_display_data(data){
+
+			var list,res,city;
+			$.each(data,function(index, element){
+
+				console.log(index + " : "+element);
+				if(element == '200'){
+					res=element;
+				}
+				if(index == 'list'){
+					list=element;
+					
+				}
+				if(index == "city"){
+				  city=element;
+				  $.each(city,function(index,element){
+				  	console.log(element);
+				  });
+				  console.log(element);
+				}		
+
+			});
+	
+			display(res,list, city);
+  		}	
+
+  		function display(res,list,city){
+
+  			if(res == '200'){
+  				var  t_data;
+  				var loc=city["name"];
+  				console.log(loc);
+  				
+  				$.each(list, function(index,element){
+  					// console.log(index);
+
+  					var date =new Date(element["dt"]);
+					var d =date.getDate() + "/"+ date.getMonth() +"/"+ date.getFullYear() + " ,"+ date.getHours() +":" +date.getMinutes() +":"+date.getSeconds();
+					t_data='<div class ="col-md-2" style="margin-left:20px;margin-bottom: 20px;"><div class="card bg-danger">'+
+ 						'<div class="card-header">'+loc+'</div>'+
+ 						'<div class="card-body"><p class="card-text"> Temp :'+element["main"]["temp"]+'</p> <p class="card-text">Humidity: '+element["main"]["humidity"]+'</p></div>'+'<div class="card-footer">'+d+'</div></div></div>'				
+		
+					$(".showdata").show();
+  					$(".test").after(t_data);
+  					t_data="";
+		});
+
+  			}			
+  }
+
+	$("#input").click(function(){
+			$("#input").val("");
+		})
+
+	});
+
+
+ </script>
+
+</head>
+
+<body>
+
+	<div class="row">
+		<div class="col-sm-2"></div>
+		<div class="col-sm-8 div-input">
+			<input type="text" name="name" class="form-control" id="input"><br>
+			<button type="submit" id="movie-button" class="btn btn-md btn-info">Submit</button>
+		</div>
+	</div><br>
+	<div class="showdata">
+		
+		<div class = "row test">
+
+			
+
+
+
+		</div>
+	</div>
+	
+
+</div>
+
+</body>
+
+</html>
